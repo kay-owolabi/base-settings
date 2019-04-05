@@ -71,11 +71,15 @@ local function git_prompt_filter()
 
     -- for remote and ref resolution algorithm see https://git-scm.com/docs/git-push
     local remote_to_push = git.get_config(git_dir, 'branch "'..branch..'"', 'remote') or 'origin'
-    local remote_ref = git.get_config(git_dir, 'remote "'..remote_to_push..'"', 'push') or
-        git.get_config(git_dir, 'push', 'default')
+    local merge_to_push = git.get_config(git_dir, 'branch "'..branch..'"', 'merge')
+    local remote_ref = git.get_config(git_dir, 'remote "'..remote_to_push..'"', 'push') or git.get_config(git_dir, 'push', 'default')
 
     local text = remote_to_push
-    if (remote_ref) then text = text..'/'..remote_ref end
+    if (merge_to_push) then
+        text = text..'/'..merge_to_push:gsub('refs/%w+/(.*)', '%1')
+    elseif (remote_ref) then
+        text = text..'/'..remote_ref
+    end
 
     clink.prompt.value = clink.prompt.value:gsub(escape(branch), '%1 -> '..text)
 
