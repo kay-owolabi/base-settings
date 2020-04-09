@@ -54,7 +54,10 @@ export LDFLAGS="-L/usr/local/opt/openblas/lib"
 export CPPFLAGS="-I/usr/local/opt/openblas/include"
 export PKG_CONFIG_PATH="/usr/local/opt/openblas/lib/pkgconfig"
 
+#export GOPATH=$HOME/gocode
 export GOPATH=$HOME/go-code
+
 export PATH=$PATH:$GOPATH/bin
-export LogInfo='%C(auto)%ar %H %><(22,trunc)%an %><(3): %>(40,mtrunc)%s %d'
+
+#eval "$(goenv init -)"
 eval "$(direnv hook bash)"
